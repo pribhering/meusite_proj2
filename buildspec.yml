@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      dotnet: 3.1
+    commands:
+      - echo "Instalando dependências do build..."
+      - dotnet --version
+
+  pre_build:
+    commands:
+      - echo "Restaurando pacotes NuGet..."
+      - dotnet restore
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 239710307340.dkr.ecr.us-east-1.amazonaws.com
+
+  build:
+    commands:
+      - echo "Compilando aplicação..."
+      - dotnet publish -c Release -o out 
+      - ls out
+      - echo "Construindo imagem..."
+      - docker build -t meusite-proj2 .
+      - echo "Marcando imagem com tag do ECR..."
+      - docker tag meusite-proj2:latest 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest
+
+  post_build:
+    commands:
+      - echo "Enviando imagem para o ECR..."
+      - docker push 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest
+      - echo "Gerando arquivo imagedefinitions.json para o ECS..."
+      - printf '[{"name":"meusite-projeto2","imageUri":"239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest"}]' > imagedefinitions.json
+      - cat imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
+
+
