@@ -21,16 +21,16 @@ phases:
       - dotnet publish -c Release -o out 
       - ls out
       - echo "Construindo imagem..."
-      - docker build -t meusite-proj2 .
+      - docker build -t meusite_proj2 .
       - echo "Marcando imagem com tag do ECR..."
-      - docker tag meusite-proj2:latest 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest
+      - docker tag meusite_proj2:latest 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite_proj2:latest
 
   post_build:
     commands:
       - echo "Enviando imagem para o ECR..."
-      - docker push 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest
+      - docker push 239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite_proj2:latest
       - echo "Gerando arquivo imagedefinitions.json para o ECS..."
-      - printf '[{"name":"meusite-projeto2","imageUri":"239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite-proj2:latest"}]' > imagedefinitions.json
+      - printf '[{"name":"meusite_projeto2","imageUri":"239710307340.dkr.ecr.us-east-1.amazonaws.com/meusite_proj2:latest"}]' > imagedefinitions.json
       - cat imagedefinitions.json
 
 artifacts:
