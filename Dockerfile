@@ -7,8 +7,8 @@ COPY *.csproj ./
 RUN dotnet restore
 
 # Copie o resto do código e compila
-COPY . ./
-RUN dotnet publish -c Release -o out
+#COPY . ./
+#RUN dotnet publish -c Release -o out
 
 # Construa a imagem de runtime
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
