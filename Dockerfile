@@ -1,12 +1,3 @@
-# Use a imagem de runtime do .NET Core
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
-WORKDIR /app
-
-# Copie o arquivo csproj e restaura as dependências
-COPY *.csproj ./
-RUN dotnet restore
-COPY . ./
-
 # Construa a imagem de runtime
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS runtime
 WORKDIR /app
