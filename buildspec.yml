@@ -21,7 +21,7 @@ phases:
       - dotnet publish -c Release -o out 
       - ls out
       - echo "Construindo imagem..."
-      - docker build -t meu_site_proj2 .
+      - docker build -t imagem-proj2 .
       - echo "Marcando imagem com tag do ECR..."
       - docker tag imagem-proj2:latest 239710307340.dkr.ecr.us-east-1.amazonaws.com/imagem-proj2:latest
 
